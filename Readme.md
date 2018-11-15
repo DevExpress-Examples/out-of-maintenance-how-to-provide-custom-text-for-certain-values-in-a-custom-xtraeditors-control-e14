@@ -1,3 +1,10 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [Form1.cs](./CS/CustomDisplayText/Form1.cs) (VB: [Form1.vb](./VB/CustomDisplayText/Form1.vb))
+* [MyTextEdit.cs](./CS/CustomDisplayText/MyTextEdit.cs) (VB: [MyTextEdit.vb](./VB/CustomDisplayText/MyTextEdit.vb))
+* [Program.cs](./CS/CustomDisplayText/Program.cs) (VB: [Program.vb](./VB/CustomDisplayText/Program.vb))
+<!-- default file list end -->
 # How to provide custom text for certain values in a custom XtraEditors control
 
 
