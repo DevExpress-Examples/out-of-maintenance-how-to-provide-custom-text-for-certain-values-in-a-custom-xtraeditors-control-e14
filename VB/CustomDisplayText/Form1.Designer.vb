@@ -1,6 +1,4 @@
-Imports Microsoft.VisualBasic
-Imports System
-Namespace CustomDisplayText
+﻿Namespace CustomDisplayText
 	Partial Public Class Form1
 		''' <summary>
 		''' Required designer variable.
