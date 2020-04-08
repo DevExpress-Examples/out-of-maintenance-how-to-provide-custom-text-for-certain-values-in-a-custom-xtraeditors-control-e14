@@ -27,31 +27,38 @@ namespace DevExpress.CustomEditors {
 
         public override string GetDisplayText(FormatInfo format, object editValue) {
             return base.GetDisplayText(format, editValue);
-        }
-
-        protected override ConvertEditValueEventArgs DoFormatEditValue(object val) {
-            if(val is int) {
-                switch((int)val) {
-                    case 0: return new ConvertEditValueEventArgs("zero");
-                    case 1: return new ConvertEditValueEventArgs("one");
-                    case 2: return new ConvertEditValueEventArgs("two");
-                    case 3: return new ConvertEditValueEventArgs("three");
+        }  
+        protected override void RaiseFormatEditValue(ConvertEditValueEventArgs e) {
+            base.RaiseFormatEditValue(e);
+            if(e.Value is int) {
+                e.Handled = true;
+                switch((int)e.Value) {
+                    case 0: e.Value = "zero";
+                        break;
+                    case 1: e.Value = "one";
+                        break;
+                    case 2: e.Value = "two";
+                        break;
+                    case 3: e.Value = "three";
+                        break;                            
                 }
-                
-            }
-            return base.DoFormatEditValue(val);
+            }            
         }
-
-        protected override ConvertEditValueEventArgs DoParseEditValue(object val) {
-            if(val is string) {
-                switch((string)val) {
-                    case "zero": return new ConvertEditValueEventArgs(0);
-                    case "one": return new ConvertEditValueEventArgs(1);
-                    case "two": return new ConvertEditValueEventArgs(2);
-                    case "three": return new ConvertEditValueEventArgs(3);
+        protected override void RaiseParseEditValue(ConvertEditValueEventArgs e) {
+            base.RaiseParseEditValue(e);
+            if(e.Value is string) {
+                e.Handled = true;
+                switch((string)e.Value) {
+                    case "zero": e.Value = 0;
+                        break;
+                    case "one": e.Value = 1;
+                        break;
+                    case "two": e.Value = 2;
+                        break;
+                    case "three": e.Value = 3;
+                        break;
                 }
             }
-            return base.DoParseEditValue(val);
         }
     }
 
