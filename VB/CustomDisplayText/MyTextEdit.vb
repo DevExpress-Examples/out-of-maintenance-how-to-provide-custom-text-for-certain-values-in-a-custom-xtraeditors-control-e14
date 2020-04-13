@@ -1,5 +1,4 @@
-Imports Microsoft.VisualBasic
-Imports System
+﻿Imports System
 Imports System.Collections.Generic
 Imports System.Text
 Imports System.ComponentModel
@@ -10,9 +9,10 @@ Imports DevExpress.XtraEditors.Controls
 Imports DevExpress.XtraEditors.Registrator
 
 Namespace DevExpress.CustomEditors
-	<UserRepositoryItem("RegisterMyTextEdit")> _
+	<UserRepositoryItem("RegisterMyTextEdit")>
 	Public Class RepositoryItemMyTextEdit
 		Inherits RepositoryItemTextEdit
+
 		Shared Sub New()
 			RegisterMyTextEdit()
 		End Sub
@@ -28,46 +28,46 @@ Namespace DevExpress.CustomEditors
 			End Get
 		End Property
 
-		Public Overrides Overloads Function GetDisplayText(ByVal format As FormatInfo, ByVal editValue As Object) As String
+		Public Overrides Function GetDisplayText(ByVal format As FormatInfo, ByVal editValue As Object) As String
 			Return MyBase.GetDisplayText(format, editValue)
 		End Function
-
-		Protected Overrides Function DoFormatEditValue(ByVal val As Object) As ConvertEditValueEventArgs
-			If TypeOf val Is Integer Then
-				Select Case CInt(Fix(val))
+		Protected Overrides Sub RaiseFormatEditValue(ByVal e As ConvertEditValueEventArgs)
+			MyBase.RaiseFormatEditValue(e)
+			If TypeOf e.Value Is Integer Then
+				e.Handled = True
+				Select Case CInt(Math.Truncate(e.Value))
 					Case 0
-						Return New ConvertEditValueEventArgs("zero")
+						e.Value = "zero"
 					Case 1
-						Return New ConvertEditValueEventArgs("one")
+						e.Value = "one"
 					Case 2
-						Return New ConvertEditValueEventArgs("two")
+						e.Value = "two"
 					Case 3
-						Return New ConvertEditValueEventArgs("three")
+						e.Value = "three"
 				End Select
-
 			End If
-			Return MyBase.DoFormatEditValue(val)
-		End Function
-
-		Protected Overrides Function DoParseEditValue(ByVal val As Object) As ConvertEditValueEventArgs
-			If TypeOf val Is String Then
-				Select Case CStr(val)
+		End Sub
+		Protected Overrides Sub RaiseParseEditValue(ByVal e As ConvertEditValueEventArgs)
+			MyBase.RaiseParseEditValue(e)
+			If TypeOf e.Value Is String Then
+				e.Handled = True
+				Select Case CStr(e.Value)
 					Case "zero"
-						Return New ConvertEditValueEventArgs(0)
+						e.Value = 0
 					Case "one"
-						Return New ConvertEditValueEventArgs(1)
+						e.Value = 1
 					Case "two"
-						Return New ConvertEditValueEventArgs(2)
+						e.Value = 2
 					Case "three"
-						Return New ConvertEditValueEventArgs(3)
+						e.Value = 3
 				End Select
 			End If
-			Return MyBase.DoParseEditValue(val)
-		End Function
+		End Sub
 	End Class
 
 	Public Class MyTextEdit
 		Inherits DevExpress.XtraEditors.TextEdit
+
 		Shared Sub New()
 			RepositoryItemMyTextEdit.RegisterMyTextEdit()
 		End Sub
@@ -80,7 +80,7 @@ Namespace DevExpress.CustomEditors
 			End Get
 		End Property
 
-		<DesignerSerializationVisibility(DesignerSerializationVisibility.Content)> _
+		<DesignerSerializationVisibility(DesignerSerializationVisibility.Content)>
 		Public Shadows ReadOnly Property Properties() As RepositoryItemMyTextEdit
 			Get
 				Return TryCast(MyBase.Properties, RepositoryItemMyTextEdit)
